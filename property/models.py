@@ -9,6 +9,7 @@ class Flat(models.Model):
     owner_pure_phone = PhoneNumberField(region='RU',
                                         max_length=12,
                                         blank=True,
+                                        null=True,
                                         verbose_name='Нормализованный номер владельца')
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.BooleanField(null=True)
@@ -72,3 +73,4 @@ class Complaint(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Квартира, на которую пожаловались')
     letter = models.TextField(verbose_name='Текст жалобы')
+
