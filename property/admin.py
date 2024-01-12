@@ -12,6 +12,7 @@ class FlatAdmin(admin.ModelAdmin):
     list_filter = ('new_building', 'rooms_number', 'has_balcony')
     raw_id_fields = ('liked_by',)
 
+
 admin.site.register(Flat, FlatAdmin)
 
 
@@ -24,6 +25,7 @@ admin.site.register(Complaint, ComplaintAdmin)
 
 class OwnAdmin(admin.ModelAdmin):
     raw_id_fields = ('flat',)
+    search_fields = ('owner',)
 
 
 admin.site.register(Own, OwnAdmin)
