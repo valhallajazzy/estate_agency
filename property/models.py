@@ -10,8 +10,7 @@ class Flat(models.Model):
                                         max_length=12,
                                         blank=True,
                                         null=True,
-                                        verbose_name='Нормализованный номер владельца')
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+                                        verbose_name='Нормализованный владельца')
     new_building = models.BooleanField(null=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
@@ -67,25 +66,30 @@ class Complaint(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Кто жаловался')
+        verbose_name='Кто жаловался',
+        related_name='complaint_flats')
     flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
-        verbose_name='Квартира, на которую пожаловались')
+        verbose_name='Квартира, на которую пожаловались',
+        related_name='complaints')
     letter = models.TextField(verbose_name='Текст жалобы')
+    def __str__(self):
+        return f"{self.flat.town}, {self.flat.address}"
 
 
-class Own(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200, db_index= True)
+class Owner(models.Model):
+    full_name = models.CharField('ФИО владельца', max_length=200, db_index= True)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     owner_pure_phone = PhoneNumberField(region='RU',
                                         max_length=12,
                                         blank=True,
                                         null=True,
                                         verbose_name='Нормализованный номер владельца')
-    flat = models.ManyToManyField(Flat,
+    flats = models.ManyToManyField(Flat,
                                   blank=True,
-                                  verbose_name='Квартиры в собственности')
+                                  verbose_name='Квартиры в собственности',
+                                  related_name='flat_owners')
 
     def __str__(self):
-        return self.owner
+        return self.full_name
