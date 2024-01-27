@@ -6,7 +6,8 @@ import phonenumbers
 
 def convert_and_set_phonenumber(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.iterator():
+    flat_set = Flat.objects.all()
+    for flat in flat_set.iterator():
         phone_number = flat.owners_phonenumber
         parse_phone_number = phonenumbers.parse(phone_number, "RU")
         if phonenumbers.is_valid_number(parse_phone_number):
