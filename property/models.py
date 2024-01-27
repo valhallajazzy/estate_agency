@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
-    owner_pure_phone = PhoneNumberField(region='RU',
+    phone_number = PhoneNumberField(region='RU',
                                         max_length=12,
                                         blank=True,
                                         null=True,
@@ -67,21 +67,22 @@ class Complaint(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name='Кто жаловался',
-        related_name='complaint_flats')
+        related_name='complaint')
     flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
         verbose_name='Квартира, на которую пожаловались',
         related_name='complaints')
     letter = models.TextField(verbose_name='Текст жалобы')
+
     def __str__(self):
         return f"{self.flat.town}, {self.flat.address}"
 
 
 class Owner(models.Model):
     full_name = models.CharField('ФИО владельца', max_length=200, db_index= True)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
-    owner_pure_phone = PhoneNumberField(region='RU',
+    phone_number = models.CharField('Номер владельца', max_length=20)
+    processed_phone_number = PhoneNumberField(region='RU',
                                         max_length=12,
                                         blank=True,
                                         null=True,
