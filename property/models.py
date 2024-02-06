@@ -5,12 +5,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    phone_number = PhoneNumberField(region='RU',
-                                        max_length=12,
-                                        blank=True,
-                                        null=True,
-                                        verbose_name='Нормализованный владельца')
     new_building = models.BooleanField(null=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
@@ -67,7 +61,7 @@ class Complaint(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name='Кто жаловался',
-        related_name='complaint')
+        related_name='complaints')
     flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
